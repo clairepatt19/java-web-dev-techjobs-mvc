@@ -15,8 +15,7 @@
 
         <p>
             <span th:each="column : ${columns}">
-                <input
-                        type="radio"
+                <input type="radio"
                         name="searchType"
                         th:id="${column.key}"
                         th:value="${column.key}"
