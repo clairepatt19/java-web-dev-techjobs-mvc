@@ -23,13 +23,18 @@ public class SearchController {
         return "search";
     }
 
-   @PostMapping(value = "/results")
-   public String displaySearchResults(@RequestParam(value='column.key'}, String searchType, String searchTerm) {
-        @RequestParam(value="${column.key}")
-        model.addAttribute("columns", columnChoices);
-        model.addAttribute("searchType", searchType);
-        model.addAttribute("searchTerm", searchTerm);
-        return "search";
+    @PostMapping("search")
+    public String displaySearchResults(@RequestParam String searchType, @RequestParam String searchTerm,Model model) {
+        ArrayList<Job> jobs;
+        if (searchType.equals("all") || searchType.equals("")){
+            jobs = JobData.findAll();
+            model.addAttribute("title", "All Jobs");
+        } else {
+            jobs = JobData.findByColumnAndValue(column, value);
+            model.addAttribute("title", "Jobs with " + columnChoices.get(column) + ": " + value);
+        }
+        model.addAttribute( "jobs", jobs);
+            return "redirect:search";
+        }
     }
-
   }
